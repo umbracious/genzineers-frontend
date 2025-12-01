@@ -1,10 +1,12 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router';
+import { useAuth } from '../components/AuthProvider';
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {token, setToken} = useAuth();
 
   const handleSubmit = async() => {
     console.log(email);
@@ -18,8 +20,14 @@ export const Login = () => {
       }
     })
 
-    console.log(response);
+    const data = await response.json();
+    setToken(data.token);
+    console.log(data);
   } 
+
+  useEffect(() => {
+      console.log(token)
+    }, [token]);
 
   return (
     <Box sx={{display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", height:"100vh", }}>

@@ -6,6 +6,7 @@ import { CssBaseline } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
+import { AuthProvider} from "./components/AuthProvider";
 
 const darkTheme = createTheme({
   palette: {
@@ -18,10 +19,12 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <BrowserRouter>
-        <Routes>
-          <Route path="/register" element={<Register/>} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>
