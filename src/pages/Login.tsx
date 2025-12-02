@@ -1,12 +1,14 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../components/AuthProvider';
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {token, setToken} = useAuth();
+  let navigate = useNavigate();
+
 
   const handleSubmit = async() => {
     console.log(email);
@@ -22,6 +24,10 @@ export const Login = () => {
 
     const data = await response.json();
     setToken(data.token);
+    if(response.status === 200)
+        navigate("/dashboard");
+    else
+        alert("majmune");
     console.log(data);
   } 
 

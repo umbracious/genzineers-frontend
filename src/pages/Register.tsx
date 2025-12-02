@@ -27,12 +27,12 @@ export const Register = () => {
       credentials: "include",
     });
 
-    // if(response.status === 200)
-    //     navigate("/dashboard");
-    // else
-    //     alert("majmune");
     const data = await response.json();
     setToken(data.token);
+    if(response.status === 200)
+        navigate("/dashboard");
+    else
+        alert("majmune");
     console.log(data);
   };
 
