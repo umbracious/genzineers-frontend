@@ -2,42 +2,27 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext, useAuth } from "../components/AuthProvider";
+import { useApplication } from "../hooks/useApplication";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const { token, setToken } = useAuth();
+  const { register } = useApplication();
   let navigate = useNavigate();
 
   const handleSubmit = async () => {
-    console.log(email);
-    console.log(password);
-
-    const response = await fetch("http://localhost:6868/user/sign-up", {
-      method: "POST",
-      body: JSON.stringify({
-        fullName: fullName,
-        email: email,
-        password: password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
+    const status = await register({
+      fullName: fullName,
+      email: email,
+      password: password,
     });
-
-    const data = await response.json();
-    setToken(data.token);
-    if(response.status === 200)
-        navigate("/dashboard");
-    else
-        alert("majmune");
-    console.log(data);
+    console.log(status);
   };
 
   useEffect(() => {
-    console.log(token)
+    console.log(token);
   }, [token]);
 
   return (
