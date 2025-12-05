@@ -2,33 +2,26 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../components/AuthProvider';
+import { useApplication } from '../hooks/useApplication';
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {token, setToken} = useAuth();
+  const { login } = useApplication();
   let navigate = useNavigate();
 
 
   const handleSubmit = async() => {
-    console.log(email);
-    console.log(password);
-
-    const response = await fetch("http://localhost:6868/user/sign-in", {
-      method:"POST",
-      body: JSON.stringify({ email: email, password: password }),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-
-    const data = await response.json();
-    setToken(data.token);
+    const response = await login({
+      email: email,
+      password: password,
+    });
+    console.log(response);
     if(response.status === 200)
         navigate("/dashboard");
     else
         alert("majmune");
-    console.log(data);
   } 
 
   useEffect(() => {

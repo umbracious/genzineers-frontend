@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext, useAuth } from "../components/AuthProvider";
 import { useApplication } from "../hooks/useApplication";
+import { AxiosResponse } from "axios";
+
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -13,12 +15,16 @@ export const Register = () => {
   let navigate = useNavigate();
 
   const handleSubmit = async () => {
-    const status = await register({
+    const response = await register({
       fullName: fullName,
       email: email,
       password: password,
     });
-    console.log(status);
+    console.log(response);
+    if(response.status === 200)
+        navigate("/dashboard");
+    else
+        alert("majmune");
   };
 
   useEffect(() => {

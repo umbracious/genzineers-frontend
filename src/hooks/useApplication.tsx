@@ -1,15 +1,23 @@
 import React, { useContext } from "react";
 import { useAuth } from "../components/AuthProvider";
-import axios from "axios";
-
-
+import axios from "../axiosConfig";
 export const useApplication = () => {
   const { token, setToken } = useAuth();
 
-  interface Payload {
+  interface RegisterPayload {
     fullName: String;
     email: String;
     password: String;
+  }
+
+  interface LoginPayload {
+    email: String;
+    password: String;
+  }
+
+  interface CoursePayload {
+    title: String;
+    code: String;
   }
 
   // const fetchCourses = async () => {};
@@ -19,19 +27,33 @@ export const useApplication = () => {
   // const updateProfile = async (payload) => {};
   // const uploadCourseSel = async (payload) => {};
   // const verifyToken = async() => {};
-  const register = async (payload: Payload) => {
-    const response = await axios.post("http://localhost:6868/user/sign-up", {
-      headers: { "Content-Type": "application/json" },
-      data: {
-        payload,
-      },
-    });
-    if (response.status === 200) {
-      setToken(response.data.token);
-    }
+  const register = async (payload: RegisterPayload) => {
+    const response = await axios.post("/user/sign-up", payload);
+    if (response.status === 200) setToken(response.data.token);
+
     return response;
   };
-  const login = async (payload) => {};
+
+  const login = async (payload: LoginPayload) => {
+    const response = await axios.post("/user/sign-in", payload);
+    if (response.status === 200) setToken(response.data.token);
+    return response;
+  };
+
+  const fetchCourses = async () => {
+    const response = await axios.get("/course");
+    return response;
+  };
+
+  const uploadCourse = async(payload: CoursePayload) => {
+    const response = await axios.post("/course",
+      payload
+    );
+    return response;
+  };
+
+  return { register, login, fetchCourses, uploadCourse };
+  // const login = async (payload) => {};
 };
 
 // console.log(email);

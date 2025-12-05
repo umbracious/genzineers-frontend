@@ -10,6 +10,7 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { AuthProvider} from "./components/AuthProvider";
 import { Dashboard } from "./pages/Dashboard";
+import { Enroll } from "./pages/Enroll";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/enroll" element={<Enroll />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
