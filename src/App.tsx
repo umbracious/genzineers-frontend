@@ -11,6 +11,7 @@ import { Login } from "./pages/Login";
 import { AuthProvider} from "./components/AuthProvider";
 import { Dashboard } from "./pages/Dashboard";
 import { Enroll } from "./pages/Enroll";
+import { SelectProvider } from "./components/SelectProvider";
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/enroll" element={<Enroll />} />
+            <Route path="/enroll" element={<SelectProvider><Enroll /></SelectProvider>} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

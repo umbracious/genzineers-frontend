@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
     token: string;
-    setToken: (value: string) => void;
+    setToken: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface AuthProviderProps {

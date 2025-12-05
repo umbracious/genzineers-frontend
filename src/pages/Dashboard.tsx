@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../components/AuthProvider";
 import { Box, Button } from "@mui/material";
 import { useApplication } from "../hooks/useApplication";
+import { Link } from "react-router";
 
 export const Dashboard = () => {
   const { token } = useAuth();
@@ -24,7 +25,7 @@ export const Dashboard = () => {
     >
       Welcome!
       <Box>
-        <Button variant="contained" onClick={()=>handleClick()}>Enroll</Button>
+        <Link to="/enroll"><Button variant="contained" onClick={()=>handleClick()}>Enroll</Button></Link>
       </Box>
     </Box>
   );

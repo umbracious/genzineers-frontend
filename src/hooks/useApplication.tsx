@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useAuth } from "../components/AuthProvider";
 import axios from "../axiosConfig";
 export const useApplication = () => {
-  const { token, setToken } = useAuth();
+  const { setToken } = useAuth();
 
   interface RegisterPayload {
     fullName: String;
@@ -20,13 +20,6 @@ export const useApplication = () => {
     code: String;
   }
 
-  // const fetchCourses = async () => {};
-  // const fetchCourse = async (id) => {};
-  // const fetchProfile = async () => {};
-  // const uploadProfile = async (payload) => {};
-  // const updateProfile = async (payload) => {};
-  // const uploadCourseSel = async (payload) => {};
-  // const verifyToken = async() => {};
   const register = async (payload: RegisterPayload) => {
     const response = await axios.post("/user/sign-up", payload);
     if (response.status === 200) setToken(response.data.token);
@@ -42,6 +35,7 @@ export const useApplication = () => {
 
   const fetchCourses = async () => {
     const response = await axios.get("/course");
+    console.log(response);
     return response;
   };
 
@@ -52,30 +46,12 @@ export const useApplication = () => {
     return response;
   };
 
+  // const fetchCourse = async (id) => {};
+  // const fetchProfile = async () => {};
+  // const uploadProfile = async (payload) => {};
+  // const updateProfile = async (payload) => {};
+  // const uploadCourseSel = async (payload) => {};
+  // const verifyToken = async() => {};
+
   return { register, login, fetchCourses, uploadCourse };
-  // const login = async (payload) => {};
 };
-
-// console.log(email);
-//     console.log(password);
-
-//     const response = await fetch("http://localhost:6868/user/sign-up", {
-//       method: "POST",
-//       body: JSON.stringify({
-//         fullName: fullName,
-//         email: email,
-//         password: password,
-//       }),
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       credentials: "include",
-//     });
-
-//     const data = await response.json();
-//     setToken(data.token);
-//     if(response.status === 200)
-//         navigate("/dashboard");
-//     else
-//         alert("majmune");
-//     console.log(data);
