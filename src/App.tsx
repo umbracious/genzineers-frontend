@@ -5,7 +5,7 @@ import "./App.css";
 import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { AuthProvider} from "./components/AuthProvider";
@@ -30,6 +30,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/enroll" element={<SelectProvider><Enroll /></SelectProvider>} />
+            <Route path="*" element={<Navigate to="/register" replace />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

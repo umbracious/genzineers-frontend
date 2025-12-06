@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useAuth } from "../components/AuthProvider";
 import axios from "../axiosConfig";
 export const useApplication = () => {
-  const { setToken } = useAuth();
+  const { token, setToken } = useAuth();
 
   interface RegisterPayload {
     fullName: String;
@@ -39,19 +39,35 @@ export const useApplication = () => {
     return response;
   };
 
-  const uploadCourse = async(payload: CoursePayload) => {
-    const response = await axios.post("/course",
-      payload
-    );
+  const uploadCourse = async (payload: CoursePayload) => {
+    const response = await axios.post("/course", payload);
     return response;
   };
 
+  const uploadCourseSel = async (payload: any) => {
+    // payload -> object to be uploaded
+    // { course1.id, course2.id, course3.id } -> add user id to all those courses
+    const response = await axios.post("/user/enroll", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  };
+
+  const fetchEnrolled = async () => {
+    const response = await axios.get("/user/enroll", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  };
   // const fetchCourse = async (id) => {};
   // const fetchProfile = async () => {};
   // const uploadProfile = async (payload) => {};
   // const updateProfile = async (payload) => {};
-  // const uploadCourseSel = async (payload) => {};
   // const verifyToken = async() => {};
 
-  return { register, login, fetchCourses, uploadCourse };
+  return { register, login, fetchCourses, uploadCourse, uploadCourseSel, fetchEnrolled };
 };

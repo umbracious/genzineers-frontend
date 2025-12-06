@@ -16,9 +16,8 @@ export const Enroll = () => {
   const [title, setTitle] = useState("");
   const [code, setCode] = useState("");
   const [courses, setCourses] = useState<Course[]>([]);
-  const [selectedCourses, setSelectedCourses] = useState<string[]>([]);
   const [refresh, setRefresh] = useState(true);
-  const { uploadCourse, fetchCourses } = useApplication();
+  const { uploadCourse, fetchCourses, uploadCourseSel } = useApplication();
   const { select } = useSelect();
 
   const handleClick = async () => {
@@ -26,12 +25,9 @@ export const Enroll = () => {
     setRefresh(true);
   };
 
-  const handleChange = (target: any) => {
-    if (target.checked) setSelectedCourses([...selectedCourses, target.name]);
-    else
-      setSelectedCourses(
-        selectedCourses.filter((course) => course !== target.name)
-      );
+  const handleEnroll = async () => {
+    const response = await uploadCourseSel(select);
+    console.log(response);
   };
 
   useEffect(() => {
@@ -44,9 +40,9 @@ export const Enroll = () => {
     console.log("refresh");
   }, [refresh]);
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(select);
-  },[select])
+  }, [select]);
 
   return (
     <Box
@@ -60,34 +56,21 @@ export const Enroll = () => {
       }}
     >
       All courses
-        <FormGroup
-          sx={{
-            display: "flex",
-            width: "15rem",
-            gap: "0.3rem",
-            height: "fit-content",
-          }}
-        >
-          {courses.map((course) => (
-            // <FormControlLabel
-            //   sx={{
-            //     display: "flex",
-            //     width: "100%",
-            //     justifyContent: "center",
-            //     alignItems: "center",
-            //     padding: "1rem",
-            //   }}
-            //   key={`${course.id}`}
-            //   name={`${course.id}`}
-            //   control={<Checkbox onChange={(e) => handleChange(e.target)} />}
-            //   label={`${course.title}: ${course.code}`}
-            //   labelPlacement={"start"}
-            // />
-            <>
-              <CourseCard course={course} />
-            </>
-          ))}
-        </FormGroup>
+      <FormGroup
+        sx={{
+          display: "flex",
+          width: "15rem",
+          gap: "0.3rem",
+          height: "fit-content",
+        }}
+      >
+        {courses.map((course) => (
+          <>
+            <CourseCard course={course} />
+          </>
+        ))}
+      </FormGroup>
+      <Button variant="contained" onClick={()=>handleEnroll()}>Enroll</Button>
       <Box
         sx={{
           display: "flex",
