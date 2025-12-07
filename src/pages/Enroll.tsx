@@ -23,6 +23,7 @@ export const Enroll = () => {
   const handleClick = async () => {
     const response = await uploadCourse({ title, code });
     setRefresh(true);
+    
   };
 
   const handleEnroll = async () => {
@@ -37,12 +38,7 @@ export const Enroll = () => {
       setCourses(response.data.items);
     })();
     setRefresh(false);
-    console.log("refresh");
   }, [refresh]);
-
-  useEffect(() => {
-    console.log(select);
-  }, [select]);
 
   return (
     <Box

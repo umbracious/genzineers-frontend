@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { AuthContext, useAuth } from "../components/AuthProvider";
+import { useAuth } from "../components/AuthProvider";
 import { useApplication } from "../hooks/useApplication";
 import { AxiosResponse } from "axios";
 
@@ -10,7 +10,6 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  const { token, setToken } = useAuth();
   const { register } = useApplication();
   let navigate = useNavigate();
 
@@ -20,16 +19,11 @@ export const Register = () => {
       email: email,
       password: password,
     });
-    console.log(response);
     if(response.status === 200)
-        navigate("/dashboard");
+      navigate("/dashboard");
     else
         alert("majmune");
   };
-
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
 
   return (
     <Box

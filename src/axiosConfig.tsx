@@ -3,6 +3,7 @@ import { useAuth } from "./components/AuthProvider";
 
 axios.defaults.baseURL = "http://localhost:6868";
 axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
   response => response,
