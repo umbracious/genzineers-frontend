@@ -6,12 +6,14 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { AuthProvider } from "./components/AuthProvider";
-import { Dashboard } from "./pages/Dashboard";
-import { Enroll } from "./pages/Enroll";
+import { Dashboard } from "./pages/Dashboard.non";
+import { Enroll } from "./pages/Enroll.non";
 import { SelectProvider } from "./components/SelectProvider";
 import { Header } from "./components/Header";
 import { Landing } from "./pages/Landing";
 import Background from "../public/background.png";
+import { Courses } from "./pages/Courses";
+import { About } from "./pages/About";
 
 function App() {
   const darkTheme = createTheme({
@@ -41,15 +43,18 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route
+                <Route path="/courses" element={<Courses />} />
+                <Route path="/about" element={<About />} />
+
+                <Route path="/dashboard" element={<Dashboard />} /> {/* reuse */}
+                <Route  
                   path="/enroll"
                   element={
                     <SelectProvider>
                       <Enroll />
                     </SelectProvider>
                   }
-                />
+                />  {/* reuse */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </Box>

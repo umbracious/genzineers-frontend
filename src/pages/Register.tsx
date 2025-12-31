@@ -6,6 +6,8 @@ import { useApplication } from "../hooks/useApplication";
 import { AxiosResponse } from "axios";
 
 
+// merge into one with login?
+
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

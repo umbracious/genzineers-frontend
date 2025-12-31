@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Course } from "../pages/Enroll";
+import { Course } from "../pages/Enroll.non";
 import { Box, Card } from "@mui/material";
 import { useSelect } from "./SelectProvider";
 
