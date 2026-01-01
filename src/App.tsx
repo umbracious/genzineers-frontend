@@ -15,6 +15,8 @@ import Background from "../public/background.png";
 import { Courses } from "./pages/Courses";
 import { About } from "./pages/About";
 
+// rethink how to implement
+
 function App() {
   const darkTheme = createTheme({
     palette: {

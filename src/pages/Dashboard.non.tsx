@@ -6,8 +6,7 @@ import { Link } from "react-router";
 import { CourseCard } from "../components/CourseCard";
 
 export const Dashboard = () => {
-  const { token } = useAuth();
-  const { fetchCourses, fetchEnrolled } = useApplication();
+  const { fetchEnrolled } = useApplication();
   const [enrolled, setEnrolled] = useState<Course[]>([]);
 
   interface Course {

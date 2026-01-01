@@ -16,8 +16,11 @@
 }
 
 body {
-  font-family: Inter;
+  /* fix this */
+  font-family: Inter; 
 }
+
+/* make height scale with page size */
 
 body::before {
   content: "";
@@ -25,7 +28,7 @@ body::before {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100%; 
   background-image: url("/background.png");
   background-size: cover;
   opacity: 0.1; 
