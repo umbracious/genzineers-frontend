@@ -2,7 +2,7 @@ import { Box, Grid, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useApplication } from "../hooks/useApplication";
 import { Container } from "./Landing";
-import Background from "../../public/background.png";
+import Background from "/background.png";
 
 export const Courses = () => {
   const { fetchEnrolled, fetchCourses } = useApplication();
