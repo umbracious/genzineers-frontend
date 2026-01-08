@@ -14,6 +14,7 @@ import { Landing } from "./pages/Landing";
 import Background from "../public/background.png";
 import { Courses } from "./pages/Courses";
 import { About } from "./pages/About";
+import { RegisterA } from "./pages/RegisterA";
 
 // rethink how to implement
 
@@ -44,6 +45,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/registerA" element={<RegisterA />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/about" element={<About />} />
