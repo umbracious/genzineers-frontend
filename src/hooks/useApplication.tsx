@@ -3,14 +3,13 @@ import { useAuth } from "../components/AuthProvider";
 import axios from "../axiosConfig";
 import { useToken } from "./useToken";
 import { verifyResponse } from "../components/utils";
+import { authClient } from "../utils/auth-client";
 export const useApplication = () => {
   const { setToken } = useAuth();
   const { getToken } = useToken();
 
   interface RegisterPayload {
-    fullName: String;
-    email: String;
-    password: String;
+    id: String;
   }
 
   interface LoginPayload {
@@ -24,7 +23,7 @@ export const useApplication = () => {
   }
 
   const register = async (payload: RegisterPayload) => {
-    const response = await axios.post("/user/sign-up", payload);
+    const response = await axios.post("/user/register", payload);
     if(response.status === 200)
       setToken(response.data.token);
     verifyResponse(response.status);
@@ -53,9 +52,10 @@ export const useApplication = () => {
 
   const uploadCourseSel = async (payload: any) => {
     const token = await getToken();
-    const response = await axios.post("/user/enroll", payload, {
+    const { data: session } = await authClient.getSession();
+    const response = await axios.post("/user/enroll", {...payload, id:session?.user.id}, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${session?.session.token}`,
       },
     });
     verifyResponse(response.status);

@@ -14,8 +14,6 @@ import { AxiosResponse } from "axios";
 import { Container } from "./Landing";
 import Github from "/github.svg";
 
-// merge into one with login?
-
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

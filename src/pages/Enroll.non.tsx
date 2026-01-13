@@ -23,11 +23,10 @@ export const Enroll = () => {
   const handleClick = async () => {
     const response = await uploadCourse({ title, code });
     setRefresh(true);
-    
   };
 
   const handleEnroll = async () => {
-    const response = await uploadCourseSel(select);
+    const response = await uploadCourseSel({ courses: select });
     console.log(response);
   };
 
@@ -66,7 +65,9 @@ export const Enroll = () => {
           </>
         ))}
       </FormGroup>
-      <Button variant="contained" onClick={()=>handleEnroll()}>Enroll</Button>
+      <Button variant="contained" onClick={() => handleEnroll()}>
+        Enroll
+      </Button>
       <Box
         sx={{
           display: "flex",
