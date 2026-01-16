@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../components/AuthProvider";
 import { Box, Button } from "@mui/material";
 import { useApplication } from "../hooks/useApplication";
 import { Link } from "react-router";
-import { CourseCard } from "../components/CourseCard";
 
 export const Dashboard = () => {
   const { fetchEnrolled } = useApplication();

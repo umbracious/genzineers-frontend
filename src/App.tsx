@@ -1,20 +1,18 @@
-import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Box, Container, CssBaseline } from "@mui/material";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
+import { Box, CssBaseline } from "@mui/material";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { Register } from "./pages/Register";
-import { Login } from "./pages/Login";
 import { AuthProvider } from "./components/AuthProvider";
-import { Dashboard } from "./pages/Dashboard.non";
-import { Enroll } from "./pages/Enroll.non";
 import { SelectProvider } from "./components/SelectProvider";
 import { Header } from "./components/Header";
 import { Landing } from "./pages/Landing";
-import Background from "../public/background.png";
-import { Courses } from "./pages/Courses";
+import { Courses } from "./pages/course/Courses";
 import { About } from "./pages/About";
-import { RegisterA } from "./pages/RegisterA";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
+import { CourseMgmt } from "./pages/admin/CourseMgmt";
+import { useAuthentication } from "./hooks/useAuthentication";
+import { useEffect } from "react";
 
 // rethink how to implement
 
@@ -24,49 +22,58 @@ function App() {
       mode: "dark",
     },
   });
+
+  const { isLoggedIn } = useAuthentication();
+  const logged = isLoggedIn();
+
+  console.log(logged);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container
-        sx={{
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          // backgroundColor: "#121212",
-          gap: "2rem",
-        }}
-      >
+      <Container>
         <BrowserRouter>
-          <AuthProvider>
+          <Box sx={{width:"70%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
             <Header />
-            <Box sx={{ height: "100%", display:"flex", width:"100%", paddingBottom:"5rem" }}>
+            <HeroContainer>
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/registerA" element={<RegisterA />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/courses" element={<Courses />} />
                 <Route path="/about" element={<About />} />
-
-                <Route path="/dashboard" element={<Dashboard />} /> {/* reuse */}
-                <Route  
-                  path="/enroll"
+                <Route
+                  path="/admin/courses"
                   element={
                     <SelectProvider>
-                      <Enroll />
+                      <CourseMgmt />
                     </SelectProvider>
                   }
-                />  {/* reuse */}
+                />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
-            </Box>
-          </AuthProvider>
+            </HeroContainer>
+          </Box>
         </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
 }
+
+const HeroContainer = styled(Box)`
+  height: 100%;
+  display: flex;
+  width: 100%;
+  padding-bottom: 5rem;
+`;
+
+const Container = styled(Box)`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+`;
 
 export default App;

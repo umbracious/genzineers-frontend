@@ -1,102 +1,58 @@
-import {
-  Box,
-  Button,
-  Input,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { useAuth } from "../components/AuthProvider";
+import { Box, styled, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import { useApplication } from "../hooks/useApplication";
-import { AxiosResponse } from "axios";
 import { Container } from "./Landing";
 import Github from "/github.svg";
+import { authClient } from "../utils/auth-client";
+import { useToken } from "../components/AuthProvider";
+import axios from "../axiosConfig";
+import { useAuthentication } from "../hooks/useAuthentication";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const { register } = useApplication();
+  const [name, setName] = useState("");
   let navigate = useNavigate();
 
+  const { register } = useAuthentication();
+
   const handleSubmit = async () => {
-    const response = await register({
-      fullName: fullName,
-      email: email,
-      password: password,
-    });
-    if (response.status === 200) navigate("/dashboard");
-    else alert("majmune");
+    register({ email, password, name });
   };
 
   return (
-    // <Box
-    //   sx={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     height: "100%",
-    //   }}
-    // >
-    //   <form action={handleSubmit}>
-    //     <Box
-    //       sx={{
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         gap: "0.4rem",
-    //         width: "fit-content",
-    //       }}
-    //     >
-    //       <Typography textAlign="center">Register here</Typography>
-    //       <TextField
-    //         name="fullName"
-    //         id="outlined-basic"
-    //         label="Full Name"
-    //         variant="outlined"
-    //         onChange={(e) => setFullName(e.target.value)}
-    //       />
-    //       <TextField
-    //         name="email"
-    //         id="outlined-basic"
-    //         label="Email"
-    //         variant="outlined"
-    //         onChange={(e) => setEmail(e.target.value)}
-    //       />
-    //       <TextField
-    //         name="password"
-    //         id="outlined-basic"
-    //         label="Password"
-    //         variant="outlined"
-    //         type="password"
-    //         onChange={(e) => setPassword(e.target.value)}
-    //       />
-    //       <Button type="submit" variant="contained">
-    //         Register
-    //       </Button>
-    //       <Typography textAlign="center">
-    //         Did you want to <Link to="/login">log in</Link> instead?
-    //       </Typography>
-    //     </Box>
-    //   </form>
-    // </Box>
     <Container>
       <BackgroundFill>
         <Title>Get Started</Title>
-        <EmailInput variant="outlined" label="Email" />
         <ButtonGroup>
           <OauthButton>
-            Log in with GitHub
+            Register with GitHub
             <img src={Github} height={24} width={24} />
           </OauthButton>
           <OauthButton>
-            Log in with Google
+            Register with Google
             <Google />
           </OauthButton>
         </ButtonGroup>
-        <SubmitButton onClick={() => handleSubmit()} />
+        <EmailInput
+          variant="outlined"
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <EmailInput
+          variant="outlined"
+          label="Full Name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <EmailInput
+          variant="outlined"
+          label="Password"
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <SubmitButton onClick={() => handleSubmit()}>Register</SubmitButton>
       </BackgroundFill>
     </Container>
   );
@@ -140,10 +96,23 @@ const OauthButton = styled(Box)`
   justify-content: center;
   align-items: center;
   background-color: #252222;
+  border: 1px solid white;
   padding: 0.625rem 0.5rem;
   gap: 0.5rem;
+  border-radius: 0.2rem;
 `;
 
 const Google = styled(Box)``;
 
-const SubmitButton = styled(Box)``;
+const SubmitButton = styled(Box)`
+  background-color: #13a4cd;
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 0.2rem;
+  cursor: pointer;
+`;

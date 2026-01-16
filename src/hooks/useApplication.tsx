@@ -1,25 +1,26 @@
 import React, { useContext } from "react";
-import { useAuth } from "../components/AuthProvider";
+import { useToken } from "../components/AuthProvider";
 import axios from "../axiosConfig";
-import { useToken } from "./useToken";
 import { verifyResponse } from "../components/utils";
 import { authClient } from "../utils/auth-client";
+import { useAuthentication } from "./useAuthentication";
 export const useApplication = () => {
-  const { setToken } = useAuth();
-  const { getToken } = useToken();
+  const { setToken } = useToken();
+  const { getToken } = useAuthentication();
 
   interface RegisterPayload {
-    id: String;
+    id: string;
   }
 
   interface LoginPayload {
-    email: String;
-    password: String;
+    email: string;
+    password: string;
   }
 
   interface CoursePayload {
-    title: String;
-    code: String;
+    title: string;
+    code: string;
+    description: string;
   }
 
   const register = async (payload: RegisterPayload) => {
@@ -51,7 +52,7 @@ export const useApplication = () => {
   };
 
   const uploadCourseSel = async (payload: any) => {
-    const token = await getToken();
+    const token = getToken();
     const { data: session } = await authClient.getSession();
     const response = await axios.post("/user/enroll", {...payload, id:session?.user.id}, {
       headers: {
@@ -63,7 +64,7 @@ export const useApplication = () => {
   };
 
   const fetchEnrolled = async () => {
-    const token = await getToken();
+    const token = getToken();
     const response = await axios.get("/user/enroll", {
       headers: {
         Authorization: `Bearer ${token}`,

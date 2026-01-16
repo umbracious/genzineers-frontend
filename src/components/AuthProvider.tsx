@@ -1,6 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useApplication } from "../hooks/useApplication";
-import { useToken } from "../hooks/useToken";
+import React, { createContext, useContext, useState } from "react";
 
 interface AuthContextType {
   token: string;
@@ -17,17 +15,6 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState("");
-  // useEffect(() => {
-  //   if (token === "") {
-  //     (async () => {
-  //       const { fetchToken } = useToken();
-  //       const response = await fetchToken();
-  //       setToken(response.data);
-  //       console.log(response.data);
-  //       setLoading(false);
-  //     })();
-  //   }
-  // }, []);
 
   return (
     <AuthContext.Provider value={{ token, setToken }}>
@@ -36,8 +23,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   );
 };
 
-export const useAuth = () => {
+export const useToken = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used inside <AuthProvider>");
+  if (!context) throw new Error("useToken must be used inside <AuthProvider>");
   return context;
 };
