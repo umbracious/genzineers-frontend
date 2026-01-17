@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { Container } from "./Landing";
 import Github from "/github.svg";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { StyledLink } from "../components/Header";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +42,10 @@ export const Login = () => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-
+        <Box>
+          Already have an account? <StyledLink to="/login">Register</StyledLink>{" "}
+          instead
+        </Box>
         <SubmitButton onClick={() => handleSubmit()}>Log in</SubmitButton>
       </BackgroundFill>
     </Container>

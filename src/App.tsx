@@ -1,8 +1,9 @@
 import "./App.css";
+import "react-datepicker/dist/react-datepicker.css";
 import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import { Box, CssBaseline } from "@mui/material";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { AuthProvider } from "./components/AuthProvider";
+import { AuthProvider, useToken } from "./components/AuthProvider";
 import { SelectProvider } from "./components/SelectProvider";
 import { Header } from "./components/Header";
 import { Landing } from "./pages/Landing";
@@ -12,7 +13,8 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { CourseMgmt } from "./pages/admin/CourseMgmt";
 import { useAuthentication } from "./hooks/useAuthentication";
-import { useEffect } from "react";
+import { CourseInfo } from "./pages/course/CourseInfo";
+import { CourseEdit } from "./pages/admin/CourseEdit";
 
 // rethink how to implement
 
@@ -23,17 +25,27 @@ function App() {
     },
   });
 
-  const { isLoggedIn } = useAuthentication();
-  const logged = isLoggedIn();
+  const { checkLogIn } = useAuthentication();
+  const { isLoggedIn } = useToken();
+  checkLogIn();
 
-  console.log(logged);
+  console.log(isLoggedIn);
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Container>
         <BrowserRouter>
-          <Box sx={{width:"70%", height:"100%", display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}>
+          <Box
+            sx={{
+              width: "70%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             <Header />
             <HeroContainer>
               <Routes>
@@ -41,6 +53,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/courses" element={<Courses />} />
+                <Route path="/courses/:code" element={<CourseInfo />} />
                 <Route path="/about" element={<About />} />
                 <Route
                   path="/admin/courses"
@@ -50,6 +63,7 @@ function App() {
                     </SelectProvider>
                   }
                 />
+                <Route path="/admin/courses/:courseCode" element={<CourseEdit />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </HeroContainer>
@@ -64,7 +78,7 @@ const HeroContainer = styled(Box)`
   height: 100%;
   display: flex;
   width: 100%;
-  padding-bottom: 5rem;
+  padding: 3rem 0;
 `;
 
 const Container = styled(Box)`

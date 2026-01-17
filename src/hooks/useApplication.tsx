@@ -7,41 +7,33 @@ import { useAuthentication } from "./useAuthentication";
 export const useApplication = () => {
   const { setToken } = useToken();
   const { getToken } = useAuthentication();
-
-  interface RegisterPayload {
-    id: string;
-  }
-
-  interface LoginPayload {
-    email: string;
-    password: string;
-  }
-
   interface CoursePayload {
     title: string;
     code: string;
     description: string;
+    tutor: string;
+    startDate: Date;
+    endDate: Date;
   }
 
-  const register = async (payload: RegisterPayload) => {
-    const response = await axios.post("/user/register", payload);
-    if(response.status === 200)
-      setToken(response.data.token);
-    verifyResponse(response.status);
-    return response;
-  };
-
-  const login = async (payload: LoginPayload) => {
-    const response = await axios.post("/user/sign-in", payload);
-    if(response.status === 200)
-      setToken(response.data.token);
-    verifyResponse(response.status);
-    return response;
-  };
+  interface UpdateCoursePayload {
+    title: string;
+    code: string;
+    description: string;
+    tutor: string;
+    link: string;
+    startDate: Date;
+    endDate: Date;
+  }
 
   const fetchCourses = async () => {
     const response = await axios.get("/course");
     verifyResponse(response.status);
+    return response;
+  };
+
+  const fetchCourseByCode = async (code: string) => {
+    const response = await axios.get(`/course/${code}`);
     return response;
   };
 
@@ -51,15 +43,23 @@ export const useApplication = () => {
     return response;
   };
 
-  const uploadCourseSel = async (payload: any) => {
-    const token = getToken();
-    const { data: session } = await authClient.getSession();
-    const response = await axios.post("/user/enroll", {...payload, id:session?.user.id}, {
-      headers: {
-        Authorization: `Bearer ${session?.session.token}`,
-      },
-    });
+  const updateCourse = async (payload: UpdateCoursePayload) => {
+    const response = await axios.patch(`/course/${payload.code}`, payload);
     verifyResponse(response.status);
+    return response;
+  };
+
+  const enrollCourse = async (payload: any) => {
+    const { data: session } = await authClient.getSession();
+    const response = await axios.post(
+      "/user/enroll",
+      { ...payload, id: session?.user.id },
+      {
+        headers: {
+          Authorization: `Bearer ${session?.session.token}`,
+        },
+      }
+    );
     return response;
   };
 
@@ -80,11 +80,11 @@ export const useApplication = () => {
   // const updateProfile = async (payload) => {};
 
   return {
-    register,
-    login,
     fetchCourses,
+    fetchCourseByCode,
     uploadCourse,
-    uploadCourseSel,
+    updateCourse,
+    enrollCourse,
     fetchEnrolled,
   };
 };

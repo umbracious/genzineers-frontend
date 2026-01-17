@@ -5,7 +5,7 @@ import { verifyResponse } from "../components/utils";
 import { authClient } from "../utils/auth-client";
 import { useNavigate } from "react-router";
 export const useAuthentication = () => {
-  const { token, setToken } = useToken();
+  const { token, setToken, setIsLoggedIn } = useToken();
 
   interface RegisterPayload {
     email: string;
@@ -21,12 +21,12 @@ export const useAuthentication = () => {
   const logOut = async () => {
     let state = 0;
     await authClient.signOut({
-        fetchOptions: {
-            onSuccess: () => {
-                state = 1;
-            }
-        }
-    })
+      fetchOptions: {
+        onSuccess: () => {
+          state = 1;
+        },
+      },
+    });
     setToken("");
     return state;
   };
@@ -57,6 +57,7 @@ export const useAuthentication = () => {
     if (error === null) {
       const response = await axios.post("/user/register", { id: data.user.id });
       setToken(data.token as string);
+      setIsLoggedIn(true);
     }
 
     console.log(data);
@@ -86,6 +87,7 @@ export const useAuthentication = () => {
 
     if (error === null) {
       setToken(data.token as string);
+      setIsLoggedIn(true);
     }
   };
   const registerOAuth = async (payload: RegisterPayload) => {
@@ -104,13 +106,18 @@ export const useAuthentication = () => {
     //
   };
 
-  const isLoggedIn = () => {
-    if (token !== "") return 1;
-    else {
+  const checkLogIn = () => {
+    if (token !== "") {
+      setIsLoggedIn(true);
+      return;
+    } else {
       const tokenExists = getToken();
-      if (tokenExists) return 1;
+      if (tokenExists) {
+        setIsLoggedIn(true);
+        return;
+      }
     }
-    return 0;
+    setIsLoggedIn(false);
   };
 
   const getToken = () => {
@@ -128,6 +135,6 @@ export const useAuthentication = () => {
     registerOAuth,
     loginOAuth,
     getToken,
-    isLoggedIn,
+    checkLogIn,
   };
 };

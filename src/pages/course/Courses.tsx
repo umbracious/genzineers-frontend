@@ -1,7 +1,6 @@
 import { Box, Grid, styled } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useApplication } from "../../hooks/useApplication";
-import { Container } from "../Landing";
 import Background from "/background.png";
 
 export const Courses = () => {
@@ -27,7 +26,7 @@ export const Courses = () => {
     })();
   }, []);
   return (
-    <Container sx={{ justifyContent: "normal" }}>
+    <Container>
       {/* <Title>Enrolled</Title>
         <CardGroup size={4}>
             {enrolled.map((course) => (
@@ -67,6 +66,14 @@ export const Courses = () => {
   );
 };
 
+const Container = styled(Box)`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
 const Title = styled(Box)`
   padding: 0 0.625rem;
   font-weight: 700;
@@ -84,7 +91,7 @@ const Card = styled(Grid)`
   height: 22.25rem;
   font-weight: 500;
   font-style: 1.25rem;
-  gap:0.25rem;
+  gap: 0.25rem;
 `;
 
 const CardImage = styled(Box)`
@@ -107,5 +114,5 @@ const CardButton = styled(Box)`
   font-weight: 600;
   font-size: 1.25rem;
   text-align: center;
-  cursor:pointer; 
+  cursor: pointer;
 `;

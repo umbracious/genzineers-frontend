@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 interface AuthContextType {
   token: string;
   setToken: React.Dispatch<React.SetStateAction<string>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface AuthProviderProps {
@@ -15,9 +17,10 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <AuthContext.Provider value={{ token, setToken }}>
+    <AuthContext.Provider value={{ token, setToken, isLoggedIn, setIsLoggedIn }}>
       {children}
     </AuthContext.Provider>
   );

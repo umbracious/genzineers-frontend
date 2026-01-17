@@ -1,6 +1,6 @@
 import { Box, styled, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useApplication } from "../hooks/useApplication";
 import { Container } from "./Landing";
 import Github from "/github.svg";
@@ -8,6 +8,7 @@ import { authClient } from "../utils/auth-client";
 import { useToken } from "../components/AuthProvider";
 import axios from "../axiosConfig";
 import { useAuthentication } from "../hooks/useAuthentication";
+import { StyledLink } from "../components/Header";
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ export const Register = () => {
 
   const handleSubmit = async () => {
     register({ email, password, name });
+    //add redirect based on if it succeeded or not here and in log in
   };
 
   return (
@@ -51,7 +53,9 @@ export const Register = () => {
           type="password"
           onChange={(e) => setPassword(e.target.value)}
         />
-
+        <Box>
+          Already have an account? <StyledLink to="/login">Log in</StyledLink> instead
+        </Box>
         <SubmitButton onClick={() => handleSubmit()}>Register</SubmitButton>
       </BackgroundFill>
     </Container>

@@ -2,16 +2,16 @@ import { Box, Button, styled } from "@mui/material";
 import React from "react";
 import { Link, useNavigate } from "react-router";
 import { useToken } from "./AuthProvider";
-import { authClient } from "../utils/auth-client";
 import { useAuthentication } from "../hooks/useAuthentication";
 
 export const Header = () => {
   const { logOut } = useAuthentication();
+  const { isLoggedIn } = useToken();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     const success = await logOut();
-    if(success) {
+    if (success) {
       navigate("/");
       window.location.reload();
     }
@@ -30,12 +30,18 @@ export const Header = () => {
           <HeaderButton>About</HeaderButton>
         </StyledLink>
       </HeaderButtonGroup>
+      {!isLoggedIn && (
+        <StyledLink to="/register">Register</StyledLink>
+      )}
+      {isLoggedIn && (
+        <Box>Maki</Box>
+      )}
 
-      <StyledLink to="/register">
-        {!token && <Box>Register</Box>}
-        {token && <Box>Maki</Box>}
-      </StyledLink>
-      {token && <Button onClick={() => handleLogout()}>Log out</Button>}
+      {/* <StyledLink to="/register"> */}
+        {/* {!isLoggedIn && <Box>Register</Box>} */}
+        {/* {isLoggedIn && <Box>Maki</Box>} */}
+      {/* </StyledLink> */}
+      {/* {isLoggedIn && <Button onClick={() => handleLogout()}>Log out</Button>} */}
     </HeaderMain>
   );
 };
@@ -49,6 +55,7 @@ export const HeaderMain = styled(Box)`
   border-radius: 5px;
   font-size: 1.2rem;
   font-weight: 500;
+  position: sticky;
 `;
 
 export const HeaderButton = styled(Box)`
